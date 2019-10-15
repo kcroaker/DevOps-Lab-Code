@@ -16,7 +16,7 @@ To be sucessfull you need to do the following
 2. Have the command log but skip over errors in the file
 3. Produce a report of cities that are processed
 4. Produce a CSV with a histogram of the temperature ranges
-5. Include a dockerfile to build a container from your work.
+5. Include a dockerfile to build a container from your work
 6. Please include help or a readme
 
 For extra points consider the following
