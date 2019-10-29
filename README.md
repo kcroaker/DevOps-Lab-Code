@@ -8,7 +8,7 @@ You have as long as you like to do this test (on average about a week should be 
 
 # Tasks 
 
-This repo contains a file called histogram_input.csv from this file you need to find the maximum temperature for tomorrow from each location listed in the file. 
+This repo contains a file called histogram_input.csv from this file you need to find the maximum temperature for tomorrow from each location listed in the file.  Pretend is is a log file being dumped out of a third party application so you have to work with what you have. 
 
 To be sucessfull you need to do the following
 
