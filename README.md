@@ -22,3 +22,17 @@ To be sucessfull you need to do the following
 For extra points consider the following
 
 1. How to speed up any API calls
+
+# Solution
+
+To build: 
+
+```
+docker build -t spaceship .
+```
+
+To run:
+
+```
+head -n 1 histogram_input.csv | docker run -i -a stdin -a stdout -a stderr spaceship /output/app
+```
