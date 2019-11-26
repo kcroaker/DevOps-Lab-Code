@@ -33,15 +33,52 @@ func (c CommandArgs) ToString() string {
 	return outstring
 }
 
+type ParsingModelFactory interface {
+    parse(logline string) ParsingModel
+}
+
+type ParsingModel interface {
+    toJson() string
+    parseLogLine(logline string)
+}
+
+
+type WeatherForcasterModelFactory struct { }
+
+func (f WeatherForcasterModelFactory) parse(logline string) ParsingModel {
+     var model WeatherForcasterModel
+     model.parseLogLine(logline)
+     return model
+}
+
+type WeatherForcasterModel struct { 
+    rawLine string
+}
+
+func (m WeatherForcasterModel) toJson() string {
+    return m.rawLine
+}
+
+func (m WeatherForcasterModel) parseLogLine(logline string) {
+    m.rawLine = logline
+}
+
 func main() {
 	
 	var passedArgs CommandArgs
 	
-	passedArgs.initFlags()
+	passedArgs.InitFlags()
 
 	fmt.Println("Command Args:\n", passedArgs.ToString())
 
+	var logLines []ParsingModel
+	var logLineFactory WeatherForcasterModelFactory
+
 	reader := bufio.NewReader(os.Stdin)
-    text, _ := reader.ReadString('\n')
-    fmt.Println(text)
+	text, _ := reader.ReadString('\n')
+	logLines = append(logLines, logLineFactory.parse(text))
+
+	for index, element := range logLines {
+		fmt.Println("logline %i\t: %v...",index, element.toJson()[0:20])
+	}
 }
