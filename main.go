@@ -1,25 +1,47 @@
 package main
 
 import (
+	"bufio"
     "flag"
-	"fmt"
+    "fmt"
+    "os"
 	"time"
 )
 
-func main() {
+type CommandArgs struct {  
+    SearchDate 		string
+    FilePath 		string
+}
 
+func (c CommandArgs) InitFlags() {  
 	// Get Date that the forecast is wanted
 	loc, _ := time.LoadLocation("UTC")
-	dateYesterday := fmt.Sprintf("%v",time.Now().In(loc).AddDate(0,0,-1).Format("2006-01-02"))
-    var searchDate string
-    flag.StringVar(&searchDate, "forecast-date", dateYesterday, "The day to get the forecast (Default is Yesterday)")
-	// Get the data source
-	var filePath string
-	flag.StringVar(&filePath, "input-file", "", "The path to a file that you want to read log lines from")
-	
-    flag.Parse()
+	dateYesterday := time.Now().In(loc).AddDate(0,0,-1)
+	flag.StringVar(&c.SearchDate, "forecast-date", fmt.Sprintf("%v",dateYesterday.Format("2006-01-02")), "The day to get the forecast (Default is Yesterday)")
+	flag.StringVar(&c.FilePath, "input-file", "os.Stdin", "The path to a file that you want to read log lines from.")
+	flag.Parse()
+}
 
-    fmt.Println("forecast-date:", searchDate)
-    fmt.Println("input-file:", filePath)
-    fmt.Println("tail:", flag.Args())
+func (c CommandArgs) Validate() bool {  
+    return true
+}
+
+func (c CommandArgs) ToString() string {
+	outstring := fmt.Sprintf("forecast-date: %v\ninput-file: %v",
+		c.SearchDate,
+		c.FilePath)
+	return outstring
+}
+
+func main() {
+	
+	var passedArgs CommandArgs
+	
+	passedArgs.initFlags()
+
+	fmt.Println("Command Args:\n", passedArgs.ToString())
+
+	reader := bufio.NewReader(os.Stdin)
+    text, _ := reader.ReadString('\n')
+    fmt.Println(text)
 }
